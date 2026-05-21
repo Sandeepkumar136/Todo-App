@@ -40,7 +40,13 @@ const Navbar = () => {
               </Link>
             </Tooltip>
           </li>
-
+          <li>
+            <Tooltip text="Tasks">
+              <Link to="/tasks" className="sidebar-items">
+                <i className="bx bx-checklist"></i>
+              </Link>
+            </Tooltip>
+          </li>
           <li>
             <Tooltip text="Analytics">
               <Link to="/analytics" className="sidebar-items">

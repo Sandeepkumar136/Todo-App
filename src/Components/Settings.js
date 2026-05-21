@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
+import CategoryManager from "../Contents/CategoryManager";
 
 const Settings = () => {
   const { user, logout } = useAuth();
@@ -32,6 +33,7 @@ const Settings = () => {
           Logout
         </button>
       </div>
+      <CategoryManager/>
     </div>
   );
 };

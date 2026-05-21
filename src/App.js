@@ -1,11 +1,7 @@
 import React from "react";
 import Navbar from "./Navigations/Navbar";
 import "./Sass/Style.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
 import Home from "./Components/Home";
@@ -20,6 +16,7 @@ import { AuthProvider } from "./Context/AuthContext";
 import Login from "./Auth/Login";
 import Signup from "./Auth/Signup";
 import ProtectedRoute from "./Auth/ProtectedRoute";
+import Tasks from "./Components/Tasks";
 
 const Layout = ({ children }) => {
   return (
@@ -75,6 +72,15 @@ const App = () => {
             element={
               <ProtectedLayout>
                 <Settings />
+              </ProtectedLayout>
+            }
+          />
+
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedLayout>
+                <Tasks />
               </ProtectedLayout>
             }
           />
