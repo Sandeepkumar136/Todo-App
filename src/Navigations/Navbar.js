@@ -50,7 +50,7 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Tooltip text="Notifications">
+            <Tooltip text="Alerts">
               <Link to="/notifications" className="sidebar-items">
                 <i className="bx bx-bell"></i>
               </Link>
