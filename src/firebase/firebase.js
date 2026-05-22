@@ -3,6 +3,7 @@ import {
   getMessaging,
   getToken,
   onMessage,
+  isSupported,
 } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -26,30 +27,66 @@ export const requestNotificationPermission =
       const permission =
         await Notification.requestPermission();
 
+      console.log(
+        "Permission:",
+        permission
+      );
+
       if (permission !== "granted") {
         return null;
       }
 
-      const messaging = getMessaging(app);
+      const registration =
+        await navigator.serviceWorker.register(
+          "/firebase-messaging-sw.js"
+        );
 
-      const token = await getToken(messaging, {
-        vapidKey:
-          "BA5anQMJ8IbNa5IuEDuulVMLtgVE9u1WI6yGB-xmRJ2me3pKEy81xuq-0jxHyjv12pTMcDi5WJ-AxGhUhtxliI8",
-      });
+      await navigator.serviceWorker.ready;
+
+      const messaging =
+        getMessaging(app);
+
+      const token = await getToken(
+        messaging,
+        {
+          vapidKey:
+            "BA5anQMJ8IbNa5IuEDuulVMLtgVE9u1WI6yGB-xmRJ2me3pKEy81xuq-0jxHyjv12pTMcDi5WJ-AxGhUhtxliI8",
+          serviceWorkerRegistration:
+            registration,
+        }
+      );
+
+      console.log("FCM TOKEN:", token);
 
       return token;
     } catch (error) {
-      console.log(error);
+      console.log(
+        "Firebase error:",
+        error
+      );
       return null;
     }
   };
 
-export const getForegroundMessage = () => {
+export const getForegroundMessage = async () => {
   try {
+    const supported =
+      await isSupported();
+
+    if (!supported) return;
+
     const messaging = getMessaging(app);
 
     onMessage(messaging, (payload) => {
-      alert(payload.notification?.body);
+      console.log(
+        "Foreground notification:",
+        payload
+      );
+
+      alert(
+        payload.notification?.body ||
+          "New notification"
+      );
     });
   } catch (error) {
     console.log(error);

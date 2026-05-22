@@ -15,4 +15,4 @@ firebase.initializeApp({
   appId: "1:554981156073:web:3bcd0eeaf24f850e79fc78",
 });
 
-const messaging = firebase.messaging();
+firebase.messaging();

@@ -23,16 +23,29 @@ export const AuthProvider = ({ children }) => {
 
   const registerNotification = async (currentUser) => {
     try {
-      if (!currentUser) return;
+      console.log("REGISTER NOTIFICATION START");
+
+      if (!currentUser) {
+        console.log("NO CURRENT USER");
+        return;
+      }
+
+      console.log("USER FOUND:", currentUser.$id);
 
       const token =
         await requestNotificationPermission();
+
+      console.log("TOKEN RECEIVED:", token);
 
       if (token) {
         await saveNotificationToken(
           currentUser.$id,
           token
         );
+
+        console.log("TOKEN SAVED");
+      } else {
+        console.log("NO TOKEN GENERATED");
       }
     } catch (error) {
       console.log(
@@ -48,19 +61,26 @@ export const AuthProvider = ({ children }) => {
     password
   ) => {
     try {
+      console.log("SIGNUP START");
+
       await signupUser(
         name,
         email,
         password
       );
 
+      console.log("SIGNUP SUCCESS");
+
       const currentUser =
         await getCurrentUser();
 
+      console.log("CURRENT USER:", currentUser);
+
       setUser(currentUser);
 
-      registerNotification(currentUser);
+      await registerNotification(currentUser);
     } catch (error) {
+      console.log("SIGNUP ERROR:", error);
       throw error;
     }
   };
@@ -70,18 +90,25 @@ export const AuthProvider = ({ children }) => {
     password
   ) => {
     try {
+      console.log("LOGIN START");
+
       await loginUser(
         email,
         password
       );
 
+      console.log("LOGIN SUCCESS");
+
       const currentUser =
         await getCurrentUser();
 
+      console.log("CURRENT USER:", currentUser);
+
       setUser(currentUser);
 
-      registerNotification(currentUser);
+      await registerNotification(currentUser);
     } catch (error) {
+      console.log("LOGIN ERROR:", error);
       throw error;
     }
   };
@@ -128,4 +155,14 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(
+      "useAuth must be used inside AuthProvider"
+    );
+  }
+
+  return context;
+};

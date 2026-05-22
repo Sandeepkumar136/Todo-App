@@ -1,29 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./Navigations/Navbar";
 import "./Sass/Style.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 // Pages
 import Home from "./Components/Home";
 import Analytics from "./Components/Analytics";
 import Notifications from "./Components/Notifications";
 import Settings from "./Components/Settings";
+import Tasks from "./Components/Tasks";
 
-// User Authentication
-
-// Context
-import { AuthProvider } from "./Context/AuthContext";
+// Auth
 import Login from "./Auth/Login";
 import Signup from "./Auth/Signup";
 import ProtectedRoute from "./Auth/ProtectedRoute";
-import Tasks from "./Components/Tasks";
+
+// Context
+import { AuthProvider } from "./Context/AuthContext";
 import { TaskSearchProvider } from "./Context/TaskSearchContext";
+
+// Firebase
+import { getForegroundMessage } from "./firebase/firebase";
 
 const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="main-content">{children}</main>
+      <main className="main-content">
+        {children}
+      </main>
     </>
   );
 };
@@ -39,6 +48,10 @@ const ProtectedLayout = ({ children }) => {
 };
 
 const App = () => {
+  useEffect(() => {
+    getForegroundMessage();
+  }, []);
+
   return (
     <AuthProvider>
       <Router>
@@ -88,8 +101,15 @@ const App = () => {
             }
           />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          <Route
+            path="/signup"
+            element={<Signup />}
+          />
         </Routes>
       </Router>
     </AuthProvider>
