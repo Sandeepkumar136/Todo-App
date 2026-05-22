@@ -1,18 +1,46 @@
 import React from "react";
 import Image_Exporter from "../Assets/ImageExporter";
 import Tooltip from "../Contents/Tooltip";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useTaskSearch } from "../Context/TaskSearchContext";
+import TaskSuggestions from "../Contents/TaskSuggestions";
 
 const Navbar = () => {
+  const { searchQuery, setSearchQuery } = useTaskSearch();
+  const navigate = useNavigate();
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+
+    if (e.target.value.trim()) {
+      navigate("/tasks");
+    }
+  };
+
   return (
     <>
       <nav className="navbar">
-        <img src={Image_Exporter.logo} alt="Logo" className="nav-logo" />
+        <img
+          src={Image_Exporter.logo}
+          alt="Logo"
+          className="nav-logo"
+        />
 
         <div className="nav-contains">
-          <div className="searchbar-contain">
-            <input placeholder="Search..." type="text" />
+          <div
+            className="searchbar-contain"
+            style={{ position: "relative" }}
+          >
+            <input
+              placeholder="Search tasks..."
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+
             <i className="bx bx-search"></i>
+
+            <TaskSuggestions />
           </div>
 
           <ul className="nav-list-p1">
@@ -40,6 +68,7 @@ const Navbar = () => {
               </Link>
             </Tooltip>
           </li>
+
           <li>
             <Tooltip text="Tasks">
               <Link to="/tasks" className="sidebar-items">
@@ -47,6 +76,7 @@ const Navbar = () => {
               </Link>
             </Tooltip>
           </li>
+
           <li>
             <Tooltip text="Analytics">
               <Link to="/analytics" className="sidebar-items">

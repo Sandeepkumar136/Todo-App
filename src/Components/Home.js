@@ -49,7 +49,7 @@ const Home = () => {
           status: "Pending",
           completedAt: null,
         },
-        user.$id
+        user.$id,
       );
 
       alert("Task created");
@@ -114,8 +114,7 @@ const Home = () => {
           <option value="Custom">Select Date</option>
         </select>
 
-        {(form.repeatType === "Custom" ||
-          form.repeatType === "None") && (
+        {(form.repeatType === "Custom" || form.repeatType === "None") && (
           <input
             type="datetime-local"
             name="dueDate"
@@ -124,20 +123,23 @@ const Home = () => {
           />
         )}
 
-        <select
-          name="priority"
-          value={form.priority}
-          onChange={handleChange}
-        >
+        <select name="priority" value={form.priority} onChange={handleChange}>
           <option>Low</option>
           <option>Medium</option>
           <option>High</option>
         </select>
 
-        <button type="submit">
-          Create Task
-        </button>
+        <button type="submit">Create Task</button>
       </form>
+      <button
+        onClick={async () => {
+          const permission = await Notification.requestPermission();
+
+          console.log(permission);
+        }}
+      >
+        Enable Notifications
+      </button>
     </div>
   );
 };

@@ -17,6 +17,7 @@ import Login from "./Auth/Login";
 import Signup from "./Auth/Signup";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import Tasks from "./Components/Tasks";
+import { TaskSearchProvider } from "./Context/TaskSearchContext";
 
 const Layout = ({ children }) => {
   return (
@@ -30,7 +31,9 @@ const Layout = ({ children }) => {
 const ProtectedLayout = ({ children }) => {
   return (
     <ProtectedRoute>
-      <Layout>{children}</Layout>
+      <TaskSearchProvider>
+        <Layout>{children}</Layout>
+      </TaskSearchProvider>
     </ProtectedRoute>
   );
 };
