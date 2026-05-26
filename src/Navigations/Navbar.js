@@ -95,20 +95,6 @@ const Navbar = () => {
               setShowSuggestions={setShowSuggestions}
             />
           </div>
-
-          <ul className="nav-list-p1">
-            <li className="nav-items-p1">
-              <Tooltip text="Theme">
-                <i className="bx bx-sun"></i>
-              </Tooltip>
-            </li>
-
-            <li className="nav-items-p1">
-              <Tooltip text="User Profile">
-                <i className="bx bx-user"></i>
-              </Tooltip>
-            </li>
-          </ul>
         </div>
       </nav>
 
@@ -158,6 +144,24 @@ const Navbar = () => {
           </li>
         </ul>
       </aside>
+      <ul className="bottom-nav">
+        <Link to="/" className="bottom-items">
+          <i className="bx bx-home"></i>
+        </Link>
+        <Link to="/tasks" className="bottom-items">
+          <i className="bx bx-checklist"></i>
+        </Link>
+        <Link to="/analytics" className="bottom-items">
+          <i className="bx bx-doughnut-chart"></i>
+        </Link>
+        <Link to="/notifications" className="bottom-items">
+          <i className="bx bx-bell"></i>{" "}
+          {/* {notificationCount > 0 && <span className="notification-dot"></span>} */}
+        </Link>
+        <Link to="/settings" className="bottom-items">
+          <i className="bx bx-cog"></i>
+        </Link>
+      </ul>
     </>
   );
 };
