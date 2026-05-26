@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 import { useTaskSearch } from "../Context/TaskSearchContext";
-import TaskSuggestions from "../Contents/TaskSuggestions";
 import {
   getUserTasks,
   updateTask,
@@ -80,11 +79,7 @@ const Tasks = () => {
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.$id === taskId
-            ? {
-                ...task,
-                status,
-                completedAt,
-              }
+            ? { ...task, status, completedAt }
             : task
         )
       );
@@ -135,10 +130,7 @@ const Tasks = () => {
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.$id === taskId
-            ? {
-                ...task,
-                ...editForm,
-              }
+            ? { ...task, ...editForm }
             : task
         )
       );
@@ -204,61 +196,82 @@ const Tasks = () => {
 
   const renderTaskList = (taskList, section) => {
     if (taskList.length === 0) {
-      return <p>No {section} tasks found.</p>;
+      return (
+        <p className="empty-state">
+          No {section} tasks found.
+        </p>
+      );
     }
 
     return taskList.map((task) => (
-      <div className="task-card" key={task.$id}>
-        {editingTaskId === task.$id ? (
-          <div className="edit-form">
-            <input
-              name="title"
-              value={editForm.title}
-              onChange={handleEditChange}
-            />
+      <div className="task-list" key={task.$id}>
+        {editingTaskId === task.$id && (
+          <div className="edit-form-overlay">
+            <div className="edit-form-modal">
+              <h3>Edit Task</h3>
 
-            <textarea
-              name="description"
-              value={editForm.description}
-              onChange={handleEditChange}
-            />
+              <input
+                name="title"
+                value={editForm.title}
+                onChange={handleEditChange}
+                placeholder="Task title"
+              />
 
-            <select
-              name="priority"
-              value={editForm.priority}
-              onChange={handleEditChange}
-            >
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
-            </select>
+              <textarea
+                name="description"
+                value={editForm.description}
+                onChange={handleEditChange}
+                placeholder="Task description"
+              />
 
-            <button onClick={() => saveEdit(task.$id)}>
-              Save
-            </button>
+              <select
+                name="priority"
+                value={editForm.priority}
+                onChange={handleEditChange}
+              >
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+              </select>
 
-            <button
-              onClick={() => setEditingTaskId(null)}
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <>
-            <div className="task-info">
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
+              <div className="edit-form-actions">
+                <button
+                  className="save-btn"
+                  onClick={() => saveEdit(task.$id)}
+                >
+                  Save
+                </button>
 
-              <div className="task-meta">
-                <small>{task.category}</small>
-                <small>{task.priority}</small>
-                <small>{task.repeatType}</small>
+                <button
+                  className="cancel-btn"
+                  onClick={() =>
+                    setEditingTaskId(null)
+                  }
+                >
+                  Cancel
+                </button>
               </div>
             </div>
+          </div>
+        )}
 
+        <div className="task-main-content">
+          <div className="task-info">
+            <h3>{task.title}</h3>
+            <p>{task.description}</p>
+
+            <div className="task-meta">
+              <small>{task.category}</small>
+              <small>{task.priority}</small>
+              <small>{task.repeatType}</small>
+            </div>
+          </div>
+
+          <div className="task-controls">
             <div className="task-actions">
               {task.status !== "Processing" && (
                 <button
+                  className="processing-btn"
                   onClick={() =>
                     handleStatusUpdate(
                       task.$id,
@@ -272,6 +285,7 @@ const Tasks = () => {
 
               {task.status !== "Completed" && (
                 <button
+                  className="complete-btn"
                   onClick={() =>
                     handleStatusUpdate(
                       task.$id,
@@ -316,8 +330,8 @@ const Tasks = () => {
                 </div>
               )}
             </div>
-          </>
-        )}
+          </div>
+        </div>
       </div>
     ));
   };
@@ -325,18 +339,25 @@ const Tasks = () => {
   return (
     <div className="tasks-page">
       <h1>My Tasks</h1>
+
       <div className="priority-tabs">
-        {["All", "Low", "Medium", "High"].map((item) => (
-          <button
-            key={item}
-            className={
-              priorityFilter === item ? "active" : ""
-            }
-            onClick={() => setPriorityFilter(item)}
-          >
-            {item}
-          </button>
-        ))}
+        {["All", "Low", "Medium", "High"].map(
+          (item) => (
+            <button
+              key={item}
+              className={
+                priorityFilter === item
+                  ? "active"
+                  : ""
+              }
+              onClick={() =>
+                setPriorityFilter(item)
+              }
+            >
+              {item}
+            </button>
+          )
+        )}
       </div>
 
       <div className="category-slider">
@@ -344,9 +365,13 @@ const Tasks = () => {
           <button
             key={cat}
             className={
-              categoryFilter === cat ? "active" : ""
+              categoryFilter === cat
+                ? "active"
+                : ""
             }
-            onClick={() => setCategoryFilter(cat)}
+            onClick={() =>
+              setCategoryFilter(cat)
+            }
           >
             {cat}
           </button>
@@ -360,12 +385,18 @@ const Tasks = () => {
 
       <section>
         <h2>Processing Tasks</h2>
-        {renderTaskList(processingTasks, "processing")}
+        {renderTaskList(
+          processingTasks,
+          "processing"
+        )}
       </section>
 
       <section>
         <h2>Completed Tasks</h2>
-        {renderTaskList(completedTasks, "completed")}
+        {renderTaskList(
+          completedTasks,
+          "completed"
+        )}
       </section>
     </div>
   );

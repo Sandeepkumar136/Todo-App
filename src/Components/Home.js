@@ -96,6 +96,7 @@ const Home = () => {
           value={form.category}
           onChange={handleChange}
           required
+          className="task-cat"
         >
           <option value="">Select Category</option>
           {categories.map((cat) => (
@@ -128,7 +129,7 @@ const Home = () => {
             <option>High</option>
           </select>
         </div>
-
+        
         {(form.repeatType === "Custom" || form.repeatType === "None") && (
           <input
             type="datetime-local"
