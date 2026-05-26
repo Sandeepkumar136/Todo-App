@@ -266,7 +266,7 @@ const Tasks = () => {
                     )
                   }
                 >
-                  Processing
+                  <i className="bx bx-rotate-ccw"></i>
                 </button>
               )}
 
@@ -279,7 +279,7 @@ const Tasks = () => {
                     )
                   }
                 >
-                  Completed
+                  <i className="bx bx-check"></i>
                 </button>
               )}
             </div>

@@ -4,11 +4,15 @@ import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getUserTasks } from "./TaskServices";
 
-const TaskSuggestions = () => {
-  const { searchQuery, setSearchQuery } = useTaskSearch();
+const TaskSuggestions = ({
+  showSuggestions,
+  setShowSuggestions,
+}) => {
+  const { searchQuery, setSearchQuery } =
+    useTaskSearch();
+
   const { user } = useAuth();
   const navigate = useNavigate();
-
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -26,7 +30,8 @@ const TaskSuggestions = () => {
     fetchTasks();
   }, [user]);
 
-  if (!searchQuery.trim()) return null;
+  if (!searchQuery.trim() || !showSuggestions)
+    return null;
 
   const filteredTasks = tasks.filter((task) =>
     task.title
@@ -34,9 +39,12 @@ const TaskSuggestions = () => {
       .includes(searchQuery.toLowerCase())
   );
 
-  const handleSelect = (title) => {
-    setSearchQuery(title);
-    navigate("/tasks");
+  const handleSelect = (task) => {
+    setSearchQuery(task.title);
+    setShowSuggestions(false); // close dropdown
+    navigate("/tasks", {
+      state: { selectedTaskId: task.$id },
+    });
   };
 
   return (
@@ -46,7 +54,7 @@ const TaskSuggestions = () => {
           <div
             key={task.$id}
             className="suggestion-item"
-            onClick={() => handleSelect(task.title)}
+            onClick={() => handleSelect(task)}
           >
             {task.title}
           </div>

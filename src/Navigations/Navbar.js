@@ -1,46 +1,79 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image_Exporter from "../Assets/ImageExporter";
 import Tooltip from "../Contents/Tooltip";
 import { Link, useNavigate } from "react-router-dom";
-import { useTaskSearch } from "../Context/TaskSearchContext";
 import TaskSuggestions from "../Contents/TaskSuggestions";
+import { useTaskSearch } from "../Context/TaskSearchContext";
 
 const Navbar = () => {
-  const { searchQuery, setSearchQuery } = useTaskSearch();
   const navigate = useNavigate();
+  const searchRef = useRef(null);
+
+  const { searchQuery, setSearchQuery } = useTaskSearch();
+
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
 
     if (e.target.value.trim()) {
-      navigate("/tasks");
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
     }
   };
+
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return;
+
+    setShowSuggestions(false);
+    navigate("/tasks");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  // Close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
       <nav className="navbar">
-        <img
-          src={Image_Exporter.logo}
-          alt="Logo"
-          className="nav-logo"
-        />
+        <img src={Image_Exporter.logo} alt="Logo" className="nav-logo" />
 
         <div className="nav-contains">
-          <div
-            className="searchbar-contain"
-            style={{ position: "relative" }}
-          >
-            <input
-              placeholder="Search tasks..."
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
+          <div className="searchbar-contain-inc-sugg">
+            <div className="searchbar-contain">
+              <input
+                placeholder="Search tasks..."
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyDown={handleKeyDown}
+              />
+
+              <i className="bx bx-search" onClick={handleSearch}></i>
+            </div>
+
+            <TaskSuggestions
+              showSuggestions={showSuggestions}
+              setShowSuggestions={setShowSuggestions}
             />
-
-            <i className="bx bx-search"></i>
-
-            <TaskSuggestions />
           </div>
 
           <ul className="nav-list-p1">

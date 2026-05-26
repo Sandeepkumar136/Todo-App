@@ -4,12 +4,16 @@ const TaskSearchContext = createContext();
 
 export const TaskSearchProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchTriggered, setSearchTriggered] =
+    useState(false);
 
   return (
     <TaskSearchContext.Provider
       value={{
         searchQuery,
         setSearchQuery,
+        searchTriggered,
+        setSearchTriggered,
       }}
     >
       {children}
