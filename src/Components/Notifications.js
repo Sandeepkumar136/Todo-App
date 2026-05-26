@@ -19,6 +19,9 @@ const Notifications = () => {
   const [loading, setLoading] =
     useState(true);
 
+  const [touchStartX, setTouchStartX] =
+    useState(null);
+
   useEffect(() => {
     if (user?.$id) {
       fetchNotifications();
@@ -43,21 +46,49 @@ const Notifications = () => {
   };
 
   const handleDelete = async (id) => {
+    setNotifications((prev) =>
+      prev.filter(
+        (item) => item.$id !== id
+      )
+    );
+
     try {
       await deleteNotification(id);
-
-      setNotifications((prev) =>
-        prev.filter(
-          (item) => item.$id !== id
-        )
-      );
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleTouchStart = (e) => {
+    setTouchStartX(
+      e.touches[0].clientX
+    );
+  };
+
+  const handleTouchEnd = (e, id) => {
+    if (!touchStartX) return;
+
+    const touchEndX =
+      e.changedTouches[0].clientX;
+
+    const diff =
+      touchStartX - touchEndX;
+
+    if (diff > 120) {
+      handleDelete(id);
+    }
+
+    setTouchStartX(null);
+  };
+
   if (loading) {
-    return <h2>Loading notifications...</h2>;
+    return (
+      <div className="notifications-page">
+        <h2 className="loading-text">
+          Loading notifications...
+        </h2>
+      </div>
+    );
   }
 
   return (
@@ -65,25 +96,37 @@ const Notifications = () => {
       <h1>Notifications</h1>
 
       {notifications.length === 0 ? (
-        <p>No notifications found</p>
+        <p className="empty-state">
+          No notifications found
+        </p>
       ) : (
         notifications.map((item) => (
           <div
             key={item.$id}
             className="notification-card"
+            onTouchStart={
+              handleTouchStart
+            }
+            onTouchEnd={(e) =>
+              handleTouchEnd(
+                e,
+                item.$id
+              )
+            }
           >
-            <div>
+            <div className="notification-content">
               <h3>{item.title}</h3>
               <p>{item.message}</p>
               <small>{item.type}</small>
             </div>
 
             <button
+              className="desktop-delete-btn"
               onClick={() =>
                 handleDelete(item.$id)
               }
             >
-              Delete
+              <i className="bx bx-trash"></i>
             </button>
           </div>
         ))

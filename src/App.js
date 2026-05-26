@@ -25,6 +25,7 @@ import { TaskSearchProvider } from "./Context/TaskSearchContext";
 
 // Firebase
 import { getForegroundMessage } from "./firebase/firebase";
+import { DarkModeProvider } from "./Context/DarkModeContext";
 
 const Layout = ({ children }) => {
   return (
@@ -40,9 +41,11 @@ const Layout = ({ children }) => {
 const ProtectedLayout = ({ children }) => {
   return (
     <ProtectedRoute>
+      <DarkModeProvider>
       <TaskSearchProvider>
         <Layout>{children}</Layout>
       </TaskSearchProvider>
+      </DarkModeProvider>
     </ProtectedRoute>
   );
 };
