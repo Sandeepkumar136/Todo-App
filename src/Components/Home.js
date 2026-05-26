@@ -68,10 +68,14 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1>Create Task</h1>
+  <div className="home-container">
+    <div className="task-card">
+      <h1 className="task-title">Create New Task</h1>
+      <p className="task-subtitle">
+        Organize your work beautifully and stay productive
+      </p>
 
-      <form onSubmit={handleSubmit}>
+      <form className="task-form" onSubmit={handleSubmit}>
         <input
           name="title"
           placeholder="Task title"
@@ -82,7 +86,7 @@ const Home = () => {
 
         <textarea
           name="description"
-          placeholder="Description"
+          placeholder="Task description..."
           value={form.description}
           onChange={handleChange}
         />
@@ -94,7 +98,6 @@ const Home = () => {
           required
         >
           <option value="">Select Category</option>
-
           {categories.map((cat) => (
             <option key={cat.$id} value={cat.name}>
               {cat.name}
@@ -102,17 +105,29 @@ const Home = () => {
           ))}
         </select>
 
-        <select
-          name="repeatType"
-          value={form.repeatType}
-          onChange={handleChange}
-        >
-          <option value="None">One Time</option>
-          <option value="Daily">Every Day</option>
-          <option value="Weekly">Every Week</option>
-          <option value="Monthly">Every Month</option>
-          <option value="Custom">Select Date</option>
-        </select>
+        <div className="form-row">
+          <select
+            name="repeatType"
+            value={form.repeatType}
+            onChange={handleChange}
+          >
+            <option value="None">One Time</option>
+            <option value="Daily">Every Day</option>
+            <option value="Weekly">Every Week</option>
+            <option value="Monthly">Every Month</option>
+            <option value="Custom">Select Date</option>
+          </select>
+
+          <select
+            name="priority"
+            value={form.priority}
+            onChange={handleChange}
+          >
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
 
         {(form.repeatType === "Custom" || form.repeatType === "None") && (
           <input
@@ -123,25 +138,13 @@ const Home = () => {
           />
         )}
 
-        <select name="priority" value={form.priority} onChange={handleChange}>
-          <option>Low</option>
-          <option>Medium</option>
-          <option>High</option>
-        </select>
-
-        <button type="submit">Create Task</button>
+        <button type="submit" className="primary-btn">
+          Create Task
+        </button>
       </form>
-      <button
-        onClick={async () => {
-          const permission = await Notification.requestPermission();
-
-          console.log(permission);
-        }}
-      >
-        Enable Notifications
-      </button>
     </div>
-  );
+  </div>
+);
 };
 
 export default Home;
