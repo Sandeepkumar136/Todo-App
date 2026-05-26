@@ -4,8 +4,28 @@ import Tooltip from "../Contents/Tooltip";
 import { Link, useNavigate } from "react-router-dom";
 import TaskSuggestions from "../Contents/TaskSuggestions";
 import { useTaskSearch } from "../Context/TaskSearchContext";
+import { useAuth } from "../Context/AuthContext";
+import { getNotifications } from "../Contents/NotificationHistoryService";
 
 const Navbar = () => {
+  const { user } = useAuth();
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      if (!user) return;
+
+      try {
+        const response = await getNotifications(user.$id);
+
+        setNotificationCount(response.total);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchNotifications();
+  }, [user]);
   const navigate = useNavigate();
   const searchRef = useRef(null);
 
@@ -122,6 +142,9 @@ const Navbar = () => {
             <Tooltip text="Alerts">
               <Link to="/notifications" className="sidebar-items">
                 <i className="bx bx-bell"></i>
+                {notificationCount > 0 && (
+                  <span className="notification-dot"></span>
+                )}
               </Link>
             </Tooltip>
           </li>

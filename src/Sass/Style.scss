@@ -42,6 +42,43 @@
   --dark-warning: #facc15;
   --dark-danger: #f87171;
 }
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #6366f1,
+    #3b82f6,
+    #06b6d4
+  );
+  border-radius: 999px;
+  border: 2px solid #e2e8f0;
+  transition: 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #4f46e5,
+    #2563eb,
+    #0891b2
+  );
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #e2e8f0;
+}
 * {
   padding: 0;
   margin: 0;
@@ -1501,4 +1538,279 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   .edit-category-modal {
     padding: 1.25rem;
   }
+}
+// Analytics
+.analytics-page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    #f8fafc,
+    #eef2ff,
+    #dbeafe
+  );
+  overflow-x: hidden;
+}
+
+.analytics-header {
+  margin-bottom: 2rem;
+}
+
+.analytics-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.analytics-header p {
+  margin-top: 0.5rem;
+  color: #64748b;
+}
+
+/* stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(240px, 1fr)
+  );
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.08);
+  transition: 0.25s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.6rem;
+}
+
+.total-card .stat-icon {
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6
+  );
+}
+
+.pending-card .stat-icon {
+  background: linear-gradient(
+    135deg,
+    #f59e0b,
+    #fbbf24
+  );
+}
+
+.processing-card .stat-icon {
+  background: linear-gradient(
+    135deg,
+    #06b6d4,
+    #0891b2
+  );
+}
+
+.completed-card .stat-icon {
+  background: linear-gradient(
+    135deg,
+    #10b981,
+    #34d399
+  );
+}
+
+.stat-card h3 {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.stat-card h2 {
+  font-size: 2rem;
+  color: #0f172a;
+  margin-top: 0.25rem;
+}
+
+/* charts */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(400px, 1fr)
+  );
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card,
+.progress-card {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 28px;
+  padding: 1.5rem;
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.card-header {
+  margin-bottom: 1rem;
+}
+
+.card-header h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* progress */
+.progress-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-circle {
+  position: relative;
+}
+
+.progress-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-text span {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.progress-text small {
+  color: #64748b;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .analytics-page {
+    padding: 1rem;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card,
+  .progress-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid {
+    gap: 1rem;
+  }
+}
+.stat-card,
+.chart-card,
+.progress-card,
+.theme-btn,
+button {
+  outline: none;
+  border: none;
+}
+
+.stat-card:focus,
+.chart-card:focus,
+.progress-card:focus,
+.theme-btn:focus,
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.stat-card:focus-visible,
+.chart-card:focus-visible,
+.progress-card:focus-visible,
+.theme-btn:focus-visible,
+button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+svg:focus,
+svg:focus-visible,
+.recharts-wrapper:focus,
+.recharts-wrapper:focus-visible {
+  outline: none !important;
+}
+/* Remove all click/focus borders */
+*:focus {
+  outline: none !important;
+}
+
+*:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Recharts fix */
+.recharts-wrapper,
+.recharts-wrapper *,
+.recharts-surface,
+.recharts-surface * {
+  outline: none !important;
+}
+
+svg,
+svg * {
+  outline: none !important;
+}
+
+/* browser tap highlight (mobile) */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* buttons/cards */
+button,
+.stat-card,
+.chart-card,
+.progress-card {
+  border: none !important;
+  outline: none !important;
+  box-shadow: inherit;
+}
+// Notification Dot
+.notification-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: red;
+  border-radius: 50%;
+  border: 2px solid white;
 }
