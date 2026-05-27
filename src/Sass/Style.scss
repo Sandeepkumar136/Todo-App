@@ -288,9 +288,6 @@ body {
 .main-content {
   margin-left: 72px;
   margin-top: 72px;
-  // width: calc(100% - 72px);
-  // min-height: calc(100vh - 72px);
-  // // padding: 2rem;
 }
 
 /* Tooltip */
@@ -324,8 +321,8 @@ body {
   visibility: visible;
   transform: translateX(-50%) translateY(2px);
 }
-.bottom-nav{
-display: none;
+.bottom-nav {
+  display: none;
 }
 @media only screen and (max-width: 768px) {
   .sidebar {
@@ -333,9 +330,6 @@ display: none;
   }
   .main-content {
     margin: 0;
-    // width: 0;
-    // min-height: 0;
-    // // padding: 2rem;
   }
   .bottom-nav {
     position: fixed;
@@ -536,11 +530,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   }
 }
 // Tasks Component
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 /* PAGE */
 .tasks-page {
@@ -637,12 +626,12 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   transition: all 0.25s ease;
 }
 
-.task-main-content:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 16px 32px rgba(15, 23, 42, 0.12),
-    0 4px 12px rgba(15, 23, 42, 0.06);
-}
+// .task-main-content:hover {
+//   transform: translateY(-4px);
+//   box-shadow:
+//     0 16px 32px rgba(15, 23, 42, 0.12),
+//     0 4px 12px rgba(15, 23, 42, 0.06);
+// }
 
 /* TASK INFO */
 .task-info {
@@ -795,7 +784,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 .edit-form-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(135, 147, 175, 0.45);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -1746,4 +1735,54 @@ button,
   background: red;
   border-radius: 50%;
   border: 2px solid white;
+}
+// =============================== Responsive Adjustments ===============================
+@media (max-width: 768px) {
+  .navbar {
+    height: 82px;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  .main-content {
+    margin-top: 72px;
+    margin-bottom: 72px;
+  }
+  .priority-tabs button,
+  .category-slider button {
+    padding: 0.8rem 1.1rem;
+    font-size: 0.8rem;
+  }
+  .tasks-page section h2 {
+    font-size: 1.2rem;
+  }
+  .task-info h3 {
+    font-size: 1rem;
+  }
+  .task-info p {
+    font-size: 0.9rem;
+  }
+  .task-meta small {
+    font-size: 0.7rem;
+  }
+  .task-actions button {
+    width: 35px;
+    height: 35px;
+  }
+  .edit-form-overlay{
+    padding: 2rem;
+  }
+  .edit-form-modal {
+    gap: 0.5rem;
+  }
+  .edit-form-modal h3 {
+    font-size: 1.1rem;
+  }
+  .edit-form-modal textarea {
+    min-height: 100px;
+  }
+  .edit-form-modal input,
+  .edit-form-modal textarea,
+  .edit-form-modal select {
+    font-size: 0.8rem;
+  }
 }
