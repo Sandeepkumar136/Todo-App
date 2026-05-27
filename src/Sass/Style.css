@@ -1521,7 +1521,6 @@ input[type=datetime-local]::-webkit-calendar-picker-indicator {
 /* charts */
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -1579,18 +1578,12 @@ input[type=datetime-local]::-webkit-calendar-picker-indicator {
   .analytics-page {
     padding: 1rem;
   }
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
   .chart-card,
   .progress-card {
     padding: 1rem;
   }
 }
 @media (max-width: 480px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
   .charts-grid {
     gap: 1rem;
   }
@@ -1725,5 +1718,27 @@ button,
   .edit-form-modal textarea,
   .edit-form-modal select {
     font-size: 0.8rem;
+  }
+  .analytics-header h1 {
+    font-size: 1.6rem;
+  }
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .stat-card h3 {
+    font-size: 0.8rem;
+  }
+  .stat-card h2 {
+    font-size: 1.5rem;
+  }
+  .card-header h3 {
+    font-size: 1rem;
+  }
+  tspan {
+    font-size: 0.75rem;
   }
 }/*# sourceMappingURL=Style.css.map */
