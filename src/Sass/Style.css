@@ -41,6 +41,10 @@
   border-radius: 999px;
 }
 
+.dark-mode ::-webkit-scrollbar-track {
+  background: #334155;
+}
+
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #6366f1, #3b82f6, #06b6d4);
   border-radius: 999px;
@@ -49,14 +53,35 @@
   transition: 0.3s ease;
 }
 
+.dark-mode ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6, #7c3aed, #06b6d4);
+  border: 2px solid #334155;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #4f46e5, #2563eb, #0891b2);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #7c3aed, #6d28d9, #0891b2);
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: #6366f1 #e2e8f0;
+}
+
+.dark-mode * {
+  scrollbar-color: #8b5cf6 #334155;
+}
+
+#root {
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+}
+
+.dark-mode #root {
+  background: linear-gradient(135deg, var(--dark-bg-primary), var(--dark-bg-secondary));
 }
 
 /* Loader.css */
@@ -387,7 +412,12 @@ body {
 /* Main Content */
 .main-content {
   margin-left: 72px;
-  margin-top: 72px;
+  padding-top: 72px;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0, #dbeafe);
+}
+
+.dark-mode .main-content {
+  background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
 }
 
 /* Tooltip */
@@ -436,6 +466,7 @@ body {
   }
   .main-content {
     margin: 0;
+    padding-top: 0;
   }
   .bottom-nav {
     position: fixed;
@@ -475,6 +506,11 @@ body {
   padding: 30px;
   display: flex;
   justify-content: center;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0, #dbeafe);
+}
+
+.dark-mode .home-container {
+  background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
 }
 
 .task-card {
@@ -542,18 +578,27 @@ select {
 }
 
 .dark-mode .task-form input::-moz-placeholder, .dark-mode .task-form textarea::-moz-placeholder {
+  background: rgba(15, 23, 42, 0.95);
   color: #94a3b8;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
 }
 
 .dark-mode .task-form input,
 .dark-mode .task-form input::placeholder,
 .dark-mode .task-form textarea::placeholder {
+  background: rgba(15, 23, 42, 0.95);
   color: #94a3b8;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
 }
 
 .task-form textarea {
   min-height: 100px;
   resize: none;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.dark-mode .task-form textarea {
+  background: rgba(15, 23, 42, 0.95);
 }
 
 .task-cat {
@@ -611,6 +656,40 @@ select {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
+}
+
+.form-row select {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid #dbeafe;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.dark-mode .form-row select {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #334155;
+  color: #f8fafc;
+}
+
+.form-row select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), 0 8px 20px rgba(59, 130, 246, 0.08);
+  transform: translateY(-2px);
+}
+
+.form-row select option {
+  background: white;
+  color: #0f172a;
+}
+
+.dark-mode .form-row select option {
+  background: #1e293b;
+  color: #f8fafc;
 }
 
 /* Primary Button */
@@ -1224,6 +1303,10 @@ input[type=datetime-local]::-webkit-calendar-picker-indicator {
   font-weight: 800;
   color: #0f172a;
   margin-bottom: 2rem;
+}
+
+.dark-mode .notifications-page h1 {
+  color: #f8fafc;
 }
 
 .loading-text,
@@ -2340,6 +2423,11 @@ button,
   transform: translateY(-1px);
 }
 
+.dark-mode .auth-card input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 4px rgba(124, 58, 174, 0.12);
+}
+
 /* BUTTON */
 .auth-card button {
   width: 100%;
@@ -2437,8 +2525,8 @@ button,
     gap: 0.5rem;
   }
   .main-content {
-    margin-top: 72px;
-    margin-bottom: 72px;
+    padding-top: 72px;
+    padding-bottom: 72px;
   }
   .priority-tabs button,
   .category-slider button {
