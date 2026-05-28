@@ -17,12 +17,6 @@ const Home = () => {
     priority: "Medium",
   });
 
-useEffect(() => {
-  if (user) {
-    fetchCategories();
-  }
-}, [user, fetchCategories]);
-
   const fetchCategories = useCallback(async () => {
     try {
       const response = await getCategories(user.$id);
@@ -33,6 +27,11 @@ useEffect(() => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (user) {
+      fetchCategories();
+    }
+  }, [user, fetchCategories]);
   const handleChange = (e) => {
     setForm({
       ...form,

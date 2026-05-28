@@ -19,12 +19,6 @@ const CategoryManager = () => {
 
   const [editValue, setEditValue] = useState("");
 
-useEffect(() => {
-  if (user?.$id) {
-    fetchCategories();
-  }
-}, [user, fetchCategories]);
-
   const fetchCategories = useCallback(async () => {
     try {
       const response = await getCategories(user.$id);
@@ -34,6 +28,11 @@ useEffect(() => {
       console.log(error);
     }
   }, [user]);
+  useEffect(() => {
+    if (user?.$id) {
+      fetchCategories();
+    }
+  }, [user, fetchCategories]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
