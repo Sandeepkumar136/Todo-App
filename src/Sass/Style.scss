@@ -326,9 +326,9 @@ body {
 
 .tooltip-text {
   position: absolute;
-  top: calc(100% + 6px); /* bottom side with less gap */
-  left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  left: calc(100% + 6px); /* right side with small gap */
+  transform: translateY(-50%);
   background: #111827;
   color: white;
   padding: 5px 9px;
