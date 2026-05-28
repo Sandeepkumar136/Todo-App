@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
+import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../Context/AuthContext";
 
 import {
@@ -15,45 +11,35 @@ import {
 const CategoryManager = () => {
   const { user } = useAuth();
 
-  const [category, setCategory] =
-    useState("");
+  const [category, setCategory] = useState("");
 
-  const [categories, setCategories] =
-    useState([]);
+  const [categories, setCategories] = useState([]);
 
-  const [editingCategory, setEditingCategory] =
-    useState(null);
+  const [editingCategory, setEditingCategory] = useState(null);
 
-  const [editValue, setEditValue] =
-    useState("");
+  const [editValue, setEditValue] = useState("");
 
-  useEffect(() => {
-    if (user?.$id) {
-      fetchCategories();
-    }
-  }, [user]);
+useEffect(() => {
+  if (user?.$id) {
+    fetchCategories();
+  }
+}, [user, fetchCategories]);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
-      const response =
-        await getCategories(user.$id);
+      const response = await getCategories(user.$id);
 
-      setCategories(
-        response.documents || []
-      );
+      setCategories(response.documents || []);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await createCategory(
-        category,
-        user.$id
-      );
+      await createCategory(category, user.$id);
 
       setCategory("");
       fetchCategories();
@@ -66,11 +52,7 @@ const CategoryManager = () => {
     try {
       await deleteCategory(id);
 
-      setCategories((prev) =>
-        prev.filter(
-          (cat) => cat.$id !== id
-        )
-      );
+      setCategories((prev) => prev.filter((cat) => cat.$id !== id));
     } catch (error) {
       console.log(error);
     }
@@ -83,10 +65,7 @@ const CategoryManager = () => {
 
   const handleUpdate = async () => {
     try {
-      await updateCategory(
-        editingCategory,
-        editValue
-      );
+      await updateCategory(editingCategory, editValue);
 
       setCategories((prev) =>
         prev.map((cat) =>
@@ -95,8 +74,8 @@ const CategoryManager = () => {
                 ...cat,
                 name: editValue,
               }
-            : cat
-        )
+            : cat,
+        ),
       );
 
       setEditingCategory(null);
@@ -108,21 +87,14 @@ const CategoryManager = () => {
 
   return (
     <div className="category-manager">
-      <h3 className="section-title">
-        Category Management
-      </h3>
+      <h3 className="section-title">Category Management</h3>
 
-      <form
-        className="category-form"
-        onSubmit={handleSubmit}
-      >
+      <form className="category-form" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Enter category name"
           value={category}
-          onChange={(e) =>
-            setCategory(e.target.value)
-          }
+          onChange={(e) => setCategory(e.target.value)}
           required
         />
 
@@ -134,32 +106,23 @@ const CategoryManager = () => {
 
       <div className="category-list">
         {categories.length === 0 ? (
-          <p className="empty-state">
-            No categories found
-          </p>
+          <p className="empty-state">No categories found</p>
         ) : (
           categories.map((cat) => (
-            <div
-              key={cat.$id}
-              className="category-card"
-            >
+            <div key={cat.$id} className="category-card">
               <span>{cat.name}</span>
 
               <div className="category-actions">
                 <button
                   className="edit-category-btn"
-                  onClick={() =>
-                    startEdit(cat)
-                  }
+                  onClick={() => startEdit(cat)}
                 >
                   <i className="bx bx-edit"></i>
                 </button>
 
                 <button
                   className="delete-category-btn"
-                  onClick={() =>
-                    handleDelete(cat.$id)
-                  }
+                  onClick={() => handleDelete(cat.$id)}
                 >
                   <i className="bx bx-trash"></i>
                 </button>
@@ -176,28 +139,17 @@ const CategoryManager = () => {
 
             <input
               value={editValue}
-              onChange={(e) =>
-                setEditValue(
-                  e.target.value
-                )
-              }
+              onChange={(e) => setEditValue(e.target.value)}
             />
 
             <div className="edit-category-actions">
-              <button
-                className="save-btn"
-                onClick={handleUpdate}
-              >
+              <button className="save-btn" onClick={handleUpdate}>
                 Save
               </button>
 
               <button
                 className="cancel-btn"
-                onClick={() =>
-                  setEditingCategory(
-                    null
-                  )
-                }
+                onClick={() => setEditingCategory(null)}
               >
                 Cancel
               </button>
