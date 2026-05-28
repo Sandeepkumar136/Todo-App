@@ -1,6 +1,7 @@
 import React, {
   useEffect,
   useState,
+  useCallback,
 } from "react";
 
 import { useAuth } from "../Context/AuthContext";
@@ -9,6 +10,7 @@ import {
   getNotifications,
   deleteNotification,
 } from "../Contents/NotificationHistoryService";
+
 import Loader from "../Contents/Loader";
 
 const Notifications = () => {
@@ -23,28 +25,29 @@ const Notifications = () => {
   const [touchStartX, setTouchStartX] =
     useState(null);
 
+  const fetchNotifications =
+    useCallback(async () => {
+      try {
+        setLoading(true);
+
+        const response =
+          await getNotifications(user.$id);
+
+        setNotifications(
+          response.documents || []
+        );
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }, [user]);
+
   useEffect(() => {
     if (user?.$id) {
       fetchNotifications();
     }
-  }, [user]);
-
-  const fetchNotifications = async () => {
-    try {
-      setLoading(true);
-
-      const response =
-        await getNotifications(user.$id);
-
-      setNotifications(
-        response.documents || []
-      );
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [user, fetchNotifications]);
 
   const handleDelete = async (id) => {
     setNotifications((prev) =>
@@ -85,7 +88,7 @@ const Notifications = () => {
   if (loading) {
     return (
       <div className="notifications-page">
-        <Loader/>
+        <Loader />
       </div>
     );
   }
