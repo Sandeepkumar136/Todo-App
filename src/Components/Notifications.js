@@ -9,6 +9,7 @@ import {
   getNotifications,
   deleteNotification,
 } from "../Contents/NotificationHistoryService";
+import Loader from "../Contents/Loader";
 
 const Notifications = () => {
   const { user } = useAuth();
@@ -84,9 +85,7 @@ const Notifications = () => {
   if (loading) {
     return (
       <div className="notifications-page">
-        <h2 className="loading-text">
-          Loading notifications...
-        </h2>
+        <Loader/>
       </div>
     );
   }
